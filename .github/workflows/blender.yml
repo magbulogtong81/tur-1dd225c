@@ -1,0 +1,32 @@
+name: build blender
+
+on:
+  push:
+    branches: [ "main,master" ]
+  pull_request:
+    branches: [ "main" ]
+  workflow_dispatch:
+      inputs:
+
+
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: compile blender
+      run: ./scripts/run-docker.sh ./build-package.sh -a aarch64 blender 
+
+    - uses: actions/upload-artifact@v4
+      with:
+    # Name of the artifact to upload.
+    # Optional. Default is 'artifact'
+        name: blender-output
+
+    # A file, directory or wildcard pattern that describes what to upload
+    # Required.
+        path: ./output
